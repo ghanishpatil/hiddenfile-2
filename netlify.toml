@@ -1,0 +1,17 @@
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/flag"
+  to = "/.netlify/functions/flag"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/flag/goal.txt"
+  to = "/.netlify/functions/goal"
+  status = 200
+  force = true
+
+

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CTF Challenge</title>
+    <!-- WARNING: Replace placeholder flag before production; do not expose real secrets on public servers. -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <canvas id="matrix-canvas" aria-hidden="true"></canvas>
+    <div class="wrapper">
+      <header class="top">
+        <h1>CTF Challenge</h1>
+        <nav class="nav">
+          <a href="/">Home</a>
+        </nav>
+      </header>
+
+      <section class="intro">
+        <p>
+          A small Node + Express challenge with a plain look. Explore the app,
+          try different paths, and pay attention to subtle hints.
+        </p>
+      </section>
+
+      <div class="columns">
+        <div class="col">
+          <h2>Info</h2>
+          <ul>
+            <li>Static homepage</li>
+            <li>Simple layout</li>
+            <li>Plain styles</li>
+          </ul>
+        </div>
+        <div class="col too-narrow">
+          <h2>Try exploring</h2>
+          <p>
+            Some resources are not linked in the UI. Inspect requests and paths.
+          </p>
+        </div>
+        <div class="col">
+          <h2>Notes</h2>
+          <p>
+            Replace placeholder flag before production; do not expose real secrets on public servers.
+          </p>
+        </div>
+      </div>
+
+      <div class="footer">
+        <span>© CTF Demo</span>
+      </div>
+    </div>
+
+    <script>
+      (function() {
+        var canvas = document.getElementById('matrix-canvas');
+        if (!canvas) return;
+        var ctx = canvas.getContext('2d');
+        var dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 2));
+        var w, h, columns, drops, fontSize = 14, last = 0, fpsInterval = 1000 / 40; // ~40 FPS cap
+
+        function resize() {
+          var cssW = window.innerWidth;
+          var cssH = window.innerHeight;
+          canvas.style.width = cssW + 'px';
+          canvas.style.height = cssH + 'px';
+          w = canvas.width = Math.floor(cssW * dpr);
+          h = canvas.height = Math.floor(cssH * dpr);
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          columns = Math.floor(w / fontSize);
+          drops = new Array(columns).fill(0);
+        }
+
+        function draw(now) {
+          if (!last) last = now;
+          var elapsed = now - last;
+          if (elapsed < fpsInterval) { requestAnimationFrame(draw); return; }
+          last = now - (elapsed % fpsInterval);
+
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.12)';
+          ctx.fillRect(0, 0, w, h);
+          ctx.fillStyle = 'rgba(0,255,136,0.8)';
+          ctx.shadowColor = 'rgba(0,255,136,0.18)';
+          ctx.shadowBlur = 6;
+          ctx.font = fontSize + 'px monospace';
+          for (var i = 0; i < drops.length; i++) {
+            var text = String.fromCharCode(0x30A0 + Math.random() * 96);
+            var x = i * fontSize;
+            var y = drops[i] * fontSize;
+            ctx.fillText(text, x, y);
+            if (y > h && Math.random() > 0.965) {
+              drops[i] = 0;
+            }
+            drops[i]++;
+          }
+          requestAnimationFrame(draw);
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+        requestAnimationFrame(draw);
+      })();
+    </script>
+  </body>
+  </html>
+
+

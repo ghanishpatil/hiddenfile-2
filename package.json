@@ -1,0 +1,22 @@
+{
+  "name": "ugly-ctf-web-challenge",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A tiny, intentionally unattractive CTF web challenge (Node + Express)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "ctf",
+    "challenge",
+    "express",
+    "ugly"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
+
