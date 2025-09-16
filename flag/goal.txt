@@ -1,1 +1,1 @@
-flag = Location 3 
+flag = FIREHYDRANT FRONT OF CC
